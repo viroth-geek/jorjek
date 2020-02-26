@@ -1,0 +1,85 @@
+{
+  "project_info": {
+    "project_number": "468054001290",
+    "firebase_url": "https://toschat-a57ae.firebaseio.com",
+    "project_id": "toschat-a57ae",
+    "storage_bucket": "toschat-a57ae.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:468054001290:android:50ae3b5ea26be80d71cf73",
+        "android_client_info": {
+          "package_name": "com.message.toschat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "468054001290-7nide7t37q61ltmmac958cpivroad1md.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.message.toschat",
+            "certificate_hash": "14af9838abccd0d846348365be08b4c66275ba45"
+          }
+        },
+        {
+          "client_id": "468054001290-936o19so9hs13pk42pcvrae7758gap4d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAbqhkqfwTdtDbApmDSH3Z-5ISfZKosZSs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "468054001290-1tdkemcghrecbboevk35t2u3244lucg3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:468054001290:android:ae8b6994cce76aea71cf73",
+        "android_client_info": {
+          "package_name": "com.viroth.toschat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "468054001290-27ltmmpc46q7oofpaii2de079gertop0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.viroth.toschat",
+            "certificate_hash": "fae47b09bd8de32921feb4f60f61c24fabb09312"
+          }
+        },
+        {
+          "client_id": "468054001290-936o19so9hs13pk42pcvrae7758gap4d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAbqhkqfwTdtDbApmDSH3Z-5ISfZKosZSs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "468054001290-1tdkemcghrecbboevk35t2u3244lucg3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

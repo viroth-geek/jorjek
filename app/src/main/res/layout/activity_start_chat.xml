@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/layout_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?android:attr/actionBarSize"
+            app:navigationIcon="@drawable/ic_back">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/user_image"
+                android:layout_width="@dimen/std_navigation_icon"
+                android:layout_height="@dimen/std_navigation_icon"
+                android:src="@drawable/ic_holder" />
+
+            <TextView
+                android:id="@+id/user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:text="sample"
+                android:textSize="16sp"
+                tools:ignore="RtlHardcoded" />
+
+        </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/layoutMainSendMessage"
+        android:layout_below="@id/layout_toolbar"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="-4dp">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/chatRecyclerView"
+            android:layout_width="match_parent"
+            app:stackFromEnd="true"
+            app:reverseLayout="true"
+            android:layout_height="match_parent" >
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+    </ScrollView>
+
+
+    <TextView
+        android:id="@+id/textViewStartToChat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="@string/start_to_chat"
+        android:textAlignment="center"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/layoutMainSendMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
+        android:background="@color/colorWhite"
+        android:gravity="end|center_horizontal"
+        android:minHeight="48dp"
+        android:orientation="horizontal"
+        android:padding="@dimen/std_padding">
+
+        <EditText
+            android:id="@+id/editTextMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:background="@color/colorWhite"
+            android:ems="10"
+            android:hint="@string/say_something"
+            android:inputType="text"
+            android:paddingLeft="@dimen/std_padding" />
+
+
+        <ImageView
+            android:id="@+id/btn_send"
+            android:layout_width="@dimen/std_button_icon_width"
+            android:layout_height="@dimen/std_button_icon_width"
+            android:layout_gravity="center_vertical"
+            android:rotation="45"
+            android:src="@drawable/btn_send"
+            android:translationZ="20dp" />
+
+    </LinearLayout>
+
+
+</RelativeLayout>
