@@ -26,11 +26,11 @@
         </activity>
 
         <activity
-            android:name="com.message.toschat.ui.MainActivity"
+            android:name="com.message.toschat.ui.collection.CollectionActivity"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity android:name="com.message.toschat.ui.signin.SignInActivity" />
-        <activity android:name="com.message.toschat.ui.ProfileActivity" />
+        <activity android:name="com.message.toschat.ui.profile.ProfileActivity" />
         <activity android:name="com.message.toschat.ui.ChatActivity" />
     </application>
 

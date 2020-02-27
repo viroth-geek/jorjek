@@ -3,12 +3,5 @@
     <gradient
         android:angle="45"
         android:startColor="@color/colorPrimary"
-        android:endColor="@color/colorPrimaryDark"
-        android:type="radial"
-        />
-
-    <corners
-        android:radius="0dp"/>
-
-
+        android:endColor="@color/colorPrimaryDark" />
 </shape>

@@ -21,7 +21,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.message.toschat.toschat.R
 import com.message.toschat.model.User
 import com.message.toschat.network.SingleTon
-import com.message.toschat.ui.MainActivity
+import com.message.toschat.ui.collection.CollectionActivity
 import com.message.toschat.util.Constance
 import kotlinx.android.synthetic.main.activity_sign_in.*
 
@@ -80,9 +80,9 @@ class SignInActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLi
         if (currentUser != null) {
 
             val user = User(currentUser.uid, currentUser.displayName, currentUser.photoUrl.toString(), currentUser.email, currentUser.providerId)
-            val intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this, CollectionActivity::class.java)
             intent.putExtra("user_package", user)
-            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
         }
     }
@@ -122,7 +122,7 @@ class SignInActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLi
                         val user = User(getUser.uid, getUser.displayName.toString(), getUser.photoUrl.toString(), getUser.email.toString(), getUser.providerId)
                         userReference.child(userId).setValue(user).addOnCompleteListener {
                             SingleTon.save(this@SignInActivity, Constance.SINGLE_USER, user)
-                            val intent = Intent(this, MainActivity::class.java)
+                            val intent = Intent(this, CollectionActivity::class.java)
                             intent.putExtra("user_package", user)
                             intent.flags
                             startActivity(intent)

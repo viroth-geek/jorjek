@@ -1,6 +1,6 @@
 package com.message.toschat.network.remote
 
-import androidx.lifecycle.MutableLiveData
+import android.util.Log
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -10,16 +10,16 @@ import com.message.toschat.util.Constance
 
 class FireBaseService {
 
-    fun getUserFromFireBase(): MutableLiveData<ArrayList<User>> {
-        val users = MutableLiveData<ArrayList<User>>()
+    fun getUserFromFireBase() : ArrayList<User> {
+
+        val users = ArrayList<User>()
         val reference  = FirebaseDatabase.getInstance().getReference(Constance.SINGLE_USER)
         reference.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshop: DataSnapshot) {
-                println("aa ${dataSnapshop.value}")
-//                for(snapshot in dataSnapshop.children) {
-//                    snapshot.getValue(User::class.java)?.let(users.value!!::add)
-//
-//                }
+                for(snapshot in dataSnapshop.children) {
+                    snapshot.getValue(User::class.java)?.let(users::add)
+                }
+                Log.d("final_user", "${users.size}")
             }
             override fun onCancelled(p0: DatabaseError) {
 

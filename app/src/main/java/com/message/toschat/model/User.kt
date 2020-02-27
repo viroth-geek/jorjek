@@ -1,6 +1,6 @@
 package com.message.toschat.model
-
 import java.io.Serializable
+
 
 class User : Serializable {
   var userId: String? = null
@@ -9,9 +9,7 @@ class User : Serializable {
   var userEmail: String? = null
   private var userProviderId: String? = null
 
-  constructor() {
-
-  }
+  constructor()
 
   constructor(userId : String?, userName: String?, userProfile: String?, userEmail: String?, userProviderId: String?) {
     this.userId = userId
@@ -20,4 +18,5 @@ class User : Serializable {
     this.userEmail = userEmail
     this.userProviderId = userProviderId
   }
+
 }

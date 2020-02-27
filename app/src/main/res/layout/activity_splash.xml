@@ -6,12 +6,4 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
-
-    <ImageView
-        android:layout_width="@dimen/std_logo_width"
-        android:layout_height="@dimen/std_logo_width"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:src="@drawable/chat" />
-
 </RelativeLayout>

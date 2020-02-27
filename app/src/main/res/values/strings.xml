@@ -21,5 +21,6 @@
     <string name="start_to_chat">Start to chat</string>
     <string name="sign_with_google">Sign in with Google</string>
     <string name="sign_with_facebook">Sign in with Facebook</string>
+    <string name="user_image">user image</string>
 
 </resources>
