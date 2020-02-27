@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    tools:ignore="UnusedNavigation"
+    app:startDestination="@+id/collectionFragment">
+
+
+    <fragment
+        android:id="@+id/chatFragment"
+        android:name="com.message.toschat.ui.chat.ChatFragment"
+        android:label="ChatFragment" />
+    <fragment
+        android:id="@+id/collectionFragment"
+        android:name="com.message.toschat.ui.collection.CollectionFragment"
+        android:label="CollectionFragment" >
+        <action
+            android:id="@+id/action_collectionFragment_to_chatFragment"
+            app:destination="@id/chatFragment" />
+        <action
+            android:id="@+id/action_collectionFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.message.toschat.ui.profile.ProfileFragment"
+        android:label="ProfileFragment" />
+</navigation>

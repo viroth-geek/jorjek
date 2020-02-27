@@ -1,4 +1,4 @@
-package com.message.toschat.activities
+package com.message.toschat.ui
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,19 +6,21 @@ import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.gms.auth.api.Auth
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.common.api.GoogleApiClient
 import com.google.firebase.auth.FirebaseAuth
 import com.message.toschat.toschat.R
-import com.message.toschat.services.SingleTon
-import com.message.toschat.utils.Constance
+import com.message.toschat.network.SingleTon
+import com.message.toschat.ui.signin.SignInActivity
+import com.message.toschat.util.Constance
 import kotlinx.android.synthetic.main.activity_user.*
 
 
 class ProfileActivity : AppCompatActivity() {
 
-    val mAuth = FirebaseAuth.getInstance();
-    var mGoogleApiClient: GoogleApiClient? = null
+    val auth = FirebaseAuth.getInstance();
+    var googleSignInClient: GoogleSignInClient? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,20 +33,19 @@ class ProfileActivity : AppCompatActivity() {
             finish()
         }
 
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+        val googleSignInOptions : GoogleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.firebase_web_client_id))
                 .requestEmail()
                 .build()
-        mGoogleApiClient = GoogleApiClient.Builder(this)
-                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                .build()
-        mGoogleApiClient?.connect()
+        googleSignInClient = GoogleSignIn.getClient(applicationContext, googleSignInOptions)
+
 
         getCurrentUser()
         btn_logout.setOnClickListener {
-            mAuth.signOut()
-            Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback {
+            auth.signOut()
+            googleSignInClient!!.signOut().addOnSuccessListener {
                 val intent = Intent(applicationContext, SignInActivity::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP;
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 startActivity(intent)
             }
 

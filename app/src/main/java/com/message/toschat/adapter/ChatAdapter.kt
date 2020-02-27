@@ -7,9 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.message.toschat.toschat.R
-import com.message.toschat.models.Message
-import com.message.toschat.services.SingleTon
-import com.message.toschat.utils.Constance
+import com.message.toschat.model.Message
+import com.message.toschat.network.SingleTon
+import com.message.toschat.util.Constance
 import java.util.*
 
 class ChatAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {

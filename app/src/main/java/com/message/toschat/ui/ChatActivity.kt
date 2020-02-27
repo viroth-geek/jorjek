@@ -1,4 +1,4 @@
-package com.message.toschat.activities
+package com.message.toschat.ui
 
 import android.os.Build
 import android.os.Bundle
@@ -11,16 +11,15 @@ import com.bumptech.glide.request.RequestOptions
 import com.google.firebase.database.*
 import com.message.toschat.toschat.R
 import com.message.toschat.adapter.ChatAdapter
-import com.message.toschat.models.Message
-import com.message.toschat.models.User
-import com.message.toschat.services.SingleTon
-import com.message.toschat.utils.Constance
-import com.message.toschat.utils.Util
+import com.message.toschat.model.Message
+import com.message.toschat.model.User
+import com.message.toschat.network.SingleTon
+import com.message.toschat.util.Constance
+import com.message.toschat.util.Util
 import kotlinx.android.synthetic.main.activity_start_chat.*
 import java.util.*
 
 class ChatActivity : AppCompatActivity() {
-
 
     private var fireBaseReference = FirebaseDatabase.getInstance()
     private var childEventListener: ValueEventListener? = null

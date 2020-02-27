@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.message.toschat.activities.ProfileActivity">
+    tools:context="com.message.toschat.ui.ProfileActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_layout"
@@ -80,6 +80,7 @@
                 android:textAlignment="center"
                 android:textColor="@color/colorWhite" />
         </RelativeLayout>
+
         <Button
             android:id="@+id/btn_logout"
             android:layout_width="match_parent"
@@ -88,7 +89,7 @@
             android:background="@drawable/color_botton"
             android:text="@string/logout"
             android:textColor="@color/colorBlack"
-            android:textSize="16dp"
+            android:textSize="16sp"
             android:textStyle="bold"
             android:textAllCaps="false"
             tools:ignore="DuplicateIds" />

@@ -1,4 +1,4 @@
-package com.message.toschat.activities
+package com.message.toschat.ui.signin
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -11,10 +11,7 @@ import android.view.Window
 import android.view.WindowManager
 import android.widget.Toast
 import com.google.android.gms.auth.api.Auth
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.auth.api.signin.GoogleSignInResult
+import com.google.android.gms.auth.api.signin.*
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.GoogleApiClient
@@ -22,15 +19,16 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.database.FirebaseDatabase
 import com.message.toschat.toschat.R
-import com.message.toschat.models.User
-import com.message.toschat.services.SingleTon
-import com.message.toschat.utils.Constance
+import com.message.toschat.model.User
+import com.message.toschat.network.SingleTon
+import com.message.toschat.ui.MainActivity
+import com.message.toschat.util.Constance
 import kotlinx.android.synthetic.main.activity_sign_in.*
 
 class SignInActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedListener {
 
-    private val mAuth = FirebaseAuth.getInstance()
-    private var mGoogleApiClient: GoogleApiClient? = null
+    private val auth = FirebaseAuth.getInstance()
+    private var googleSignInClient: GoogleSignInClient? = null
 
     private val RC_SIGN_IN = 7
     val EXTRA_USER: String = "user"
@@ -41,18 +39,16 @@ class SignInActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLi
         setContentView(R.layout.activity_sign_in)
         getCurrentUser()
 
-        btn_google.setOnClickListener {
+        buttonGoogle.setOnClickListener {
             signIn()
         }
         //google sign in
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+        val googleSignInOptions: GoogleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.firebase_web_client_id))
                 .requestEmail()
                 .build()
-        mGoogleApiClient = GoogleApiClient.Builder(this)
-                .enableAutoManage(this, this)
-                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                .build()
+
+        googleSignInClient = GoogleSignIn.getClient(applicationContext, googleSignInOptions)
 
         //facebook
 //        callbackManager = CallbackManager.Factory.create()
@@ -74,19 +70,19 @@ class SignInActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLi
 
 
     private fun signIn() {
-        val signInIntent: Intent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient)
+        val signInIntent: Intent = googleSignInClient!!.signInIntent
         startActivityForResult(signInIntent, RC_SIGN_IN)
     }
 
     private fun getCurrentUser() {
-        val currentUser = mAuth.currentUser
+        val currentUser = auth.currentUser
 
         if (currentUser != null) {
 
-            val user = User(currentUser.uid, currentUser?.displayName, currentUser?.photoUrl.toString(), currentUser?.email, currentUser?.providerId)
+            val user = User(currentUser.uid, currentUser.displayName, currentUser.photoUrl.toString(), currentUser.email, currentUser.providerId)
             val intent = Intent(this, MainActivity::class.java)
             intent.putExtra("user_package", user)
-            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP;
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
             startActivity(intent)
         }
     }
@@ -96,12 +92,11 @@ class SignInActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLi
         if (requestCode == RC_SIGN_IN) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
             try {
-
                 val result: GoogleSignInResult = Auth.GoogleSignInApi.getSignInResultFromIntent(data)
                 handleSignInResult(result)
 
             } catch (e: ApiException) {
-                Log.w("result", "Google sign in failed", e);
+                Log.w("result", "Google sign in failed", e)
             }
         }
     }
@@ -110,24 +105,22 @@ class SignInActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLi
         Log.d("result", "handleSignInResult: " + result.isSuccess)
         if (result.isSuccess) {
             val account: GoogleSignInAccount? = result.signInAccount
-            firebaseAuthWithGoogle(account)
-
-        } else {
+            fireBaseAuthWithGoogle(account)
         }
     }
 
-    private fun firebaseAuthWithGoogle(account: GoogleSignInAccount?) {
+    private fun fireBaseAuthWithGoogle(account: GoogleSignInAccount?) {
         val credential = GoogleAuthProvider.getCredential(account?.idToken, null)
-        mAuth!!.signInWithCredential(credential)
+        auth.signInWithCredential(credential)
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
-                        val getUser = mAuth!!.currentUser
+                        val getUser = auth.currentUser
                         Log.e("user", getUser!!.displayName)
 
                         val userReference = FirebaseDatabase.getInstance().getReference(Constance.SINGLE_USER)
                         val userId = getUser.uid
                         val user = User(getUser.uid, getUser.displayName.toString(), getUser.photoUrl.toString(), getUser.email.toString(), getUser.providerId)
-                        userReference.child(userId.toString()).setValue(user).addOnCompleteListener {
+                        userReference.child(userId).setValue(user).addOnCompleteListener {
                             SingleTon.save(this@SignInActivity, Constance.SINGLE_USER, user)
                             val intent = Intent(this, MainActivity::class.java)
                             intent.putExtra("user_package", user)
@@ -145,11 +138,11 @@ class SignInActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLi
     @SuppressLint("ObsoleteSdkInt")
     private fun hideStatusBar() {
         if (Build.VERSION.SDK_INT >= 16) {
-            window.setFlags(AccessibilityNodeInfoCompat.ACTION_NEXT_HTML_ELEMENT, AccessibilityNodeInfoCompat.ACTION_NEXT_HTML_ELEMENT);
-            window.getDecorView().setSystemUiVisibility(3328);
+            window.setFlags(AccessibilityNodeInfoCompat.ACTION_NEXT_HTML_ELEMENT, AccessibilityNodeInfoCompat.ACTION_NEXT_HTML_ELEMENT)
+            window.decorView.systemUiVisibility = 3328
         } else {
-            requestWindowFeature(Window.FEATURE_NO_TITLE);
-            this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+            requestWindowFeature(Window.FEATURE_NO_TITLE)
+            this.window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
         }
     }
 

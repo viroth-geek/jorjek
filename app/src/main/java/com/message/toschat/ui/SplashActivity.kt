@@ -1,4 +1,4 @@
-package com.message.toschat.activities
+package com.message.toschat.ui
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.view.Window
 import android.view.WindowManager
 import com.message.toschat.toschat.R
+import com.message.toschat.ui.signin.SignInActivity
 
 class SplashActivity : AppCompatActivity() {
 
@@ -18,10 +19,9 @@ class SplashActivity : AppCompatActivity() {
 
     private val mRunnable: Runnable = Runnable {
         if (!isFinishing) {
-
             val intent = Intent(applicationContext, SignInActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
-            finish()
         }
     }
 
@@ -35,7 +35,6 @@ class SplashActivity : AppCompatActivity() {
         mDelayHandler = Handler()
         //Navigate with delay
         mDelayHandler!!.postDelayed(mRunnable, DELAY)
-
     }
 
     public override fun onDestroy() {
@@ -43,7 +42,6 @@ class SplashActivity : AppCompatActivity() {
         if (mDelayHandler != null) {
             mDelayHandler!!.removeCallbacks(mRunnable)
         }
-
         super.onDestroy()
     }
 

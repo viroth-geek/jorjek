@@ -1,4 +1,4 @@
-package com.message.toschat.utils
+package com.message.toschat.util
 
 object Constance {
     var SINGLE_USER = "user"

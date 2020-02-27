@@ -1,9 +1,9 @@
-package com.message.toschat.services
+package com.message.toschat.network
 
 import android.content.Context
 import android.content.SharedPreferences
 import com.google.gson.Gson
-import com.message.toschat.models.User
+import com.message.toschat.model.User
 
 object SingleTon {
 

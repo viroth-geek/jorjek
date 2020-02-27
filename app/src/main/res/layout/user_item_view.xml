@@ -1,57 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/layout_item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:background="@color/colorWhite"
-   >
+    android:orientation="vertical">
 
-
-    <RelativeLayout
+    <androidx.cardview.widget.CardView
+        app:cardCornerRadius="@dimen/cardview_default_radius"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/bottom_line"
-        android:orientation="horizontal"
-        android:padding="@dimen/std_padding">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/nav_header_vertical_spacing"
+        android:layout_marginBottom="6dp"
+        android:layout_marginStart="@dimen/nav_header_vertical_spacing"
+        android:layout_marginEnd="@dimen/nav_header_vertical_spacing"
+        android:elevation="6dp">
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/img_profile"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:src="@drawable/ic_holder"
-            android:elevation="1dp"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?android:attr/selectableItemBackground"
+            android:orientation="horizontal"
+            android:padding="@dimen/std_padding">
 
-        <TextView
-            android:id="@+id/txt_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/std_margin"
-            android:layout_toEndOf="@id/img_profile"
-            android:text="TextView"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            tools:ignore="HardcodedText" />
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/img_profile"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/ic_holder"
+                android:elevation="1dp" />
 
-        <TextView
-            android:id="@+id/txt_last_sms"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/img_profile"
-            android:layout_alignStart="@+id/txt_name"
-            android:text="@string/good_night" />
+            <TextView
+                android:id="@+id/txt_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/std_margin"
+                android:layout_toEndOf="@id/img_profile"
+                android:text="TextView"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                tools:ignore="HardcodedText" />
 
-        <TextView
-            android:id="@+id/txt_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentTop="true"
-            android:text="@string/_12_34_am"
-            tools:ignore="RelativeOverlap" />
+            <TextView
+                android:id="@+id/txt_last_sms"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/img_profile"
+                android:layout_alignStart="@+id/txt_name"
+                android:text="@string/good_night" />
 
-    </RelativeLayout>
+            <TextView
+                android:id="@+id/txt_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
+                android:text="@string/_12_34_am"
+                tools:ignore="RelativeOverlap" />
 
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
 
 </LinearLayout>

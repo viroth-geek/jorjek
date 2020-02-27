@@ -7,9 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import com.message.toschat.toschat.R
-import com.message.toschat.models.User
-import com.message.toschat.services.SingleTon
-import com.message.toschat.utils.Constance
+import com.message.toschat.model.User
+import com.message.toschat.network.SingleTon
+import com.message.toschat.util.Constance
 import kotlinx.android.synthetic.main.user_item_view.view.*
 
 class UserAdapter(var userList: MutableList<User>, var context: Context, var listener: OnItemClickListener) : RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
@@ -23,13 +23,7 @@ class UserAdapter(var userList: MutableList<User>, var context: Context, var lis
     }
 
     override fun onBindViewHolder(holderUser: UserViewHolder, position: Int) {
-        val user = SingleTon.getCurrentUser(context, Constance.SINGLE_USER)
-        if (user?.userId != userList[position].userId) {
-            holderUser.Bind(userList[position], listener)
-        }
-//        else {
-//            userList.remove(userList[position])
-//        }
+        holderUser.Bind(userList[position], listener)
     }
 
     class UserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

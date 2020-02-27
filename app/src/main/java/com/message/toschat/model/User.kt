@@ -1,4 +1,4 @@
-package com.message.toschat.models
+package com.message.toschat.model
 
 import java.io.Serializable
 
