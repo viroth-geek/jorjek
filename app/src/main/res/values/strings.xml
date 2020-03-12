@@ -22,5 +22,7 @@
     <string name="sign_with_google">Sign in with Google</string>
     <string name="sign_with_facebook">Sign in with Facebook</string>
     <string name="user_image">user image</string>
+    <string name="user">User</string>
+    <string name="todo">TODO</string>
 
 </resources>

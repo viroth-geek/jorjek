@@ -9,7 +9,7 @@
     <dimen name="std_margin">10dp</dimen>
     <dimen name="std_padding">10dp</dimen>
     <dimen name="std_button_icon_width">35dp</dimen>
-    <dimen name="std_navigation_icon">50dp</dimen>
+    <dimen name="std_navigation_icon">40dp</dimen>
     <dimen name="size20">32dp</dimen>
     <dimen name="std_radius">6dp</dimen>
 

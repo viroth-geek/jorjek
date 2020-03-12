@@ -1,7 +1,8 @@
-package com.message.toschat.ui
+package com.message.toschat.ui.chat
 
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -10,14 +11,15 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.firebase.database.*
 import com.message.toschat.toschat.R
-import com.message.toschat.adapter.ChatAdapter
-import com.message.toschat.model.Message
-import com.message.toschat.model.User
+//import com.message.toschat.adapter.ChatAdapter
+import com.message.toschat.model.*
 import com.message.toschat.network.SingleTon
+import com.message.toschat.toschat.databinding.ActivityStartChatBinding
 import com.message.toschat.util.Constance
 import com.message.toschat.util.Util
 import kotlinx.android.synthetic.main.activity_start_chat.*
 import java.util.*
+import kotlin.collections.ArrayList
 
 class ChatActivity : AppCompatActivity() {
 
@@ -28,6 +30,9 @@ class ChatActivity : AppCompatActivity() {
     var partner: User? = null
     var you: User? = null
     val conversations = ArrayList<Message>()
+
+    private lateinit var viewModel: ChatViewModel
+    private lateinit var binding: ActivityStartChatBinding
 
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -56,16 +61,28 @@ class ChatActivity : AppCompatActivity() {
         chatRecyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, true)
 
         displayChatMessage()
-        chatRecyclerView.adapter = ChatAdapter(conversations, this)
-        btn_send.setOnClickListener {
+
+//        chatRecyclerView.adapter = ChatAdapter(conversations, this)
+
+        sendButton.setOnClickListener {
+
             val user: User? = intent.getSerializableExtra(Constance.STRING_USER_PACKAGE) as? User
-            val posterId = user?.userId;
-            val posterName = user?.userName;
-            val type = "text";
+            val posterId = user?.userId
+            val posterName = user?.userName
+            val type = "text"
             val time = "4:34"
 
             val reference = FirebaseDatabase.getInstance().getReference(Constance.STRING_CHAT)
-            val messagePackage = Message(SingleTon.getCurrentUser(this, Constance.SINGLE_USER)?.userId.toString(), time, editTextMessage.text.toString(), type)
+//            val messagePackage = MessageResponse(SingleTon.getCurrentUser(this, Constance.SINGLE_USER)?.userId.toString(), time, messageEditText.text.toString(), type)
+            val lastMessage = LastMessage("hello", "-dkfjkdjf", 1)
+            val message = Message("Hello", 1)
+            val childMessage = ChildMessage(1, message)
+            val messages: ArrayList<ChildMessage>  = ArrayList()
+            messages.add(childMessage)
+            val messageOwner = MessageOwner("-dfnkdnfk", 1)
+            val users: ArrayList<MessageOwner> = ArrayList()
+            users.add(messageOwner)
+            val messagePackage = MessageResponse(lastMessage = lastMessage, lastTimeStamp = 2329389239283, messages = messages, user = users)
             val key = reference.push().key.toString()
 
             val fireBaseSession = SingleTon.getFireBaseSession(this, Constance.STRING_FIRE_BASE_SESSION)
@@ -76,11 +93,10 @@ class ChatActivity : AppCompatActivity() {
                 val part2 = parts[1]
                 if (you?.userId == part1 && partner?.userId == part2 || you?.userId == part2 && partner?.userId == part1) {
                     reference.child("$part1-$part2").child("/${Constance.STRING_CONVERSATION}").child(key).setValue(messagePackage)
-                    editTextMessage.setText("")
+                    messageEditText.setText("")
                 }
             } else {
                 reference.child(partner?.userId + "-" + SingleTon.getCurrentUser(this, Constance.SINGLE_USER)?.userId).child("/${Constance.STRING_CONVERSATION}").child(key).setValue(messagePackage)
-
             }
 
         }
@@ -111,33 +127,31 @@ class ChatActivity : AppCompatActivity() {
                                     override fun onCancelled(p0: DatabaseError) {
 
                                     }
-
                                     override fun onChildMoved(p0: DataSnapshot, p1: String?) {
 
                                     }
-
                                     override fun onChildChanged(subSnapShot: DataSnapshot, p1: String?) {
-                                        var message = subSnapShot.getValue(Message::class.java)
-
-                                        val contentSnapshot = snapshot.child("/conversations")
-                                        val matchSnapShot = contentSnapshot.children
-                                        for (match in matchSnapShot) {
-                                            val subCons = match.getValue(Message::class.java)
-                                            conversations.add(subCons!!)
-                                            conversations.reverse()
-                                        }
-                                        chatRecyclerView.adapter = ChatAdapter(conversations, this@ChatActivity)
+                                        var message = subSnapShot.getValue(MessageResponse::class.java)
+                                            Log.d("TAG", "${message.toString()}")
+//                                        val contentSnapshot = snapshot.child("/conversations")
+//                                        val matchSnapShot = contentSnapshot.children
+//                                        for (match in matchSnapShot) {
+//                                            val subCons = match.getValue(Message::class.java)
+//                                            conversations.add(subCons!!)
+//                                            conversations.reverse()
+//                                        }
+//                                        chatRecyclerView.adapter = ChatAdapter(conversations, this@ChatActivity)
                                     }
 
                                     override fun onChildAdded(p0: DataSnapshot, p1: String?) {
-                                        val conversations = ArrayList<Message>()
-                                        val contentSnapshot = snapshot.child("/conversations")
-                                        val matchSnapShot = contentSnapshot.children
-                                        for (match in matchSnapShot) {
-                                            val subCons = match.getValue(Message::class.java)
-                                            conversations.add(subCons!!)
-                                        }
-                                        chatRecyclerView.adapter = ChatAdapter(conversations, this@ChatActivity)
+//                                        val conversations = ArrayList<Message>()
+//                                        val contentSnapshot = snapshot.child("/conversations")
+//                                        val matchSnapShot = contentSnapshot.children
+//                                        for (match in matchSnapShot) {
+//                                            val subCons = match.getValue(Message::class.java)
+//                                            conversations.add(subCons!!)
+//                                        }
+//                                        chatRecyclerView.adapter = ChatAdapter(conversations, this@ChatActivity)
                                     }
 
                                     override fun onChildRemoved(p0: DataSnapshot) {

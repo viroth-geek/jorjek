@@ -20,21 +20,17 @@ class CollectionViewModel : ViewModel() {
     }
 
     fun getUser(refresh: Boolean = false) {
-        if(refresh)
+        if(refresh) {
             finalUsers.value?.clear()
+        }
         val reference  = FirebaseDatabase.getInstance().getReference(Constance.SINGLE_USER)
         reference.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshop: DataSnapshot) {
-                Log.d("user firebase", "${dataSnapshop.value}")
                 for(snapshot in dataSnapshop.children) {
                     snapshot.getValue(User::class.java)?.let(users::add)
                 }
                 finalUsers.value = users
-
-                Log.d("user before", "${users.size}")
-                Log.d("user after", "${finalUsers.value?.size}")
             }
-
             override fun onCancelled(dataBaseError: DatabaseError) {
                 Log.d("user", "${dataBaseError.details} ")
                 Log.d("user", "${dataBaseError.code} ")
@@ -42,5 +38,4 @@ class CollectionViewModel : ViewModel() {
             }
         })
     }
-
 }

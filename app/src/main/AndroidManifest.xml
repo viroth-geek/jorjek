@@ -31,7 +31,7 @@
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity android:name="com.message.toschat.ui.signin.SignInActivity" />
         <activity android:name="com.message.toschat.ui.profile.ProfileActivity" />
-        <activity android:name="com.message.toschat.ui.ChatActivity" />
+        <activity android:name="com.message.toschat.ui.chat.ChatActivity" />
     </application>
 
 </manifest>

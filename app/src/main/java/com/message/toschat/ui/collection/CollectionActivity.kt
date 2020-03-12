@@ -2,6 +2,7 @@ package com.message.toschat.ui.collection
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.view.Menu
@@ -21,9 +22,13 @@ import com.message.toschat.model.User
 import com.message.toschat.network.SingleTon
 import com.message.toschat.toschat.R
 import com.message.toschat.toschat.databinding.ActivityMainBinding
+import com.message.toschat.ui.chat.ChatActivity
 import com.message.toschat.ui.profile.ProfileActivity
 import com.message.toschat.ui.signin.SignInActivity
 import com.message.toschat.util.Constance
+import com.r0adkll.slidr.Slidr
+import com.r0adkll.slidr.model.SlidrConfig
+import com.r0adkll.slidr.model.SlidrPosition
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -39,13 +44,13 @@ class CollectionActivity : AppCompatActivity() {
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         viewModel = ViewModelProviders.of(this).get(CollectionViewModel::class.java)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         binding.lifecycleOwner = this
         binding.setLifecycleOwner {
             this.lifecycle
         }
-
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             toolbar.setTitleTextColor(getColor(R.color.colorWhite))
@@ -55,13 +60,11 @@ class CollectionActivity : AppCompatActivity() {
                 .requestIdToken(getString(R.string.firebase_web_client_id))
                 .requestEmail()
                 .build()
-
         googleSignInClient = GoogleSignIn.getClient(applicationContext, googleSignInOptions)
-
-
         setUpToolbar()
         refreshObserve(viewModel, binding)
         collectionObserve(viewModel, binding)
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -110,7 +113,9 @@ class CollectionActivity : AppCompatActivity() {
                 layoutManager = LinearLayoutManager(applicationContext)
                 adapter = UserAdapter(users, applicationContext, object : UserAdapter.OnItemClickListener {
                     override fun onItemClick(user: User) {
-
+                        val intent = Intent(applicationContext, ChatActivity::class.java)
+                        intent.putExtra(Constance.STRING_USER_PACKAGE, user)
+                        startActivity(intent)
                     }
                 })
                 adapter?.notifyDataSetChanged()
