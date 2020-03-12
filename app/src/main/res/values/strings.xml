@@ -24,5 +24,6 @@
     <string name="user_image">user image</string>
     <string name="user">User</string>
     <string name="todo">TODO</string>
+    <string name="no_friend_to_connect">No friend to connect.</string>
 
 </resources>

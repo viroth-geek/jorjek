@@ -5,8 +5,6 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -15,7 +13,6 @@ import com.message.toschat.toschat.R
 import com.message.toschat.network.SingleTon
 import com.message.toschat.toschat.BR
 import com.message.toschat.toschat.databinding.ActivityUserBinding
-import com.message.toschat.ui.collection.CollectionViewModel
 import com.message.toschat.ui.signin.SignInActivity
 import com.message.toschat.util.Constance
 import kotlinx.android.synthetic.main.activity_user.*
@@ -79,7 +76,7 @@ class ProfileActivity : AppCompatActivity() {
 
     private fun getCurrentUser(binding: ActivityUserBinding) {
         try {
-            val user = SingleTon.getCurrentUser(this, Constance.SINGLE_USER)
+            val user = SingleTon.getCurrentUser(this, Constance.USER)
             binding.setVariable(BR.user, user)
             binding.executePendingBindings()
         } catch (e: Exception) {

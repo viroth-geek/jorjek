@@ -18,7 +18,6 @@ import com.message.toschat.toschat.databinding.ActivityStartChatBinding
 import com.message.toschat.util.Constance
 import com.message.toschat.util.Util
 import kotlinx.android.synthetic.main.activity_start_chat.*
-import java.util.*
 import kotlin.collections.ArrayList
 
 class ChatActivity : AppCompatActivity() {
@@ -26,7 +25,7 @@ class ChatActivity : AppCompatActivity() {
     private var fireBaseReference = FirebaseDatabase.getInstance()
     private var childEventListener: ValueEventListener? = null
     var keySnapshot: String? = ""
-    val mMessageReference = fireBaseReference.getReference(Constance.STRING_CHAT)
+    val mMessageReference = fireBaseReference.getReference(Constance.CHAT)
     var partner: User? = null
     var you: User? = null
     val conversations = ArrayList<Message>()
@@ -41,7 +40,7 @@ class ChatActivity : AppCompatActivity() {
         setContentView(R.layout.activity_start_chat)
 
         partner = intent.getSerializableExtra(Constance.STRING_USER_PACKAGE) as? User
-        you = SingleTon.getCurrentUser(this@ChatActivity, Constance.SINGLE_USER)
+        you = SingleTon.getCurrentUser(this@ChatActivity, Constance.USER)
 
         toolbar.setNavigationIcon(R.drawable.ic_back)
         toolbar.title = ""
@@ -72,7 +71,7 @@ class ChatActivity : AppCompatActivity() {
             val type = "text"
             val time = "4:34"
 
-            val reference = FirebaseDatabase.getInstance().getReference(Constance.STRING_CHAT)
+            val reference = FirebaseDatabase.getInstance().getReference(Constance.CHAT)
 //            val messagePackage = MessageResponse(SingleTon.getCurrentUser(this, Constance.SINGLE_USER)?.userId.toString(), time, messageEditText.text.toString(), type)
             val lastMessage = LastMessage("hello", "-dkfjkdjf", 1)
             val message = Message("Hello", 1)
@@ -96,7 +95,7 @@ class ChatActivity : AppCompatActivity() {
                     messageEditText.setText("")
                 }
             } else {
-                reference.child(partner?.userId + "-" + SingleTon.getCurrentUser(this, Constance.SINGLE_USER)?.userId).child("/${Constance.STRING_CONVERSATION}").child(key).setValue(messagePackage)
+                reference.child(partner?.userId + "-" + SingleTon.getCurrentUser(this, Constance.USER)?.userId).child("/${Constance.STRING_CONVERSATION}").child(key).setValue(messagePackage)
             }
 
         }

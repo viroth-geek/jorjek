@@ -2,7 +2,6 @@ package com.message.toschat.ui.collection
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.view.Menu
@@ -26,9 +25,6 @@ import com.message.toschat.ui.chat.ChatActivity
 import com.message.toschat.ui.profile.ProfileActivity
 import com.message.toschat.ui.signin.SignInActivity
 import com.message.toschat.util.Constance
-import com.r0adkll.slidr.Slidr
-import com.r0adkll.slidr.model.SlidrConfig
-import com.r0adkll.slidr.model.SlidrPosition
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -62,6 +58,7 @@ class CollectionActivity : AppCompatActivity() {
                 .build()
         googleSignInClient = GoogleSignIn.getClient(applicationContext, googleSignInOptions)
         setUpToolbar()
+        viewModel.getUser(refresh = true, context = applicationContext)
         refreshObserve(viewModel, binding)
         collectionObserve(viewModel, binding)
 
@@ -97,36 +94,42 @@ class CollectionActivity : AppCompatActivity() {
 
     private fun collectionObserve(viewModel: CollectionViewModel, binding: ActivityMainBinding) {
 
-        val currentUser = SingleTon.getCurrentUser(this, Constance.SINGLE_USER)
+        val currentUser = SingleTon.getCurrentUser(this, Constance.USER)
         val users = ArrayList<User>()
 
         binding.progressBar.visibility = View.VISIBLE
         viewModel.finalUsers.observe(this, Observer { data ->
+
             binding.progressBar.visibility = View.GONE
             binding.refresh.isRefreshing = false
+            if(data.size > 0) {
+                binding.emptyItemLayout.visibility = View.INVISIBLE
+                data.forEach {
+                    if(it.userId != currentUser?.userId)
+                        users.add(it)
+                }
+                binding.collectionRecyclerView.apply {
+                    layoutManager = LinearLayoutManager(applicationContext)
+                    adapter = UserAdapter(users, applicationContext, object : UserAdapter.OnItemClickListener {
+                        override fun onItemClick(user: User) {
+                            val intent = Intent(applicationContext, ChatActivity::class.java)
+                            intent.putExtra(Constance.STRING_USER_PACKAGE, user)
+                            startActivity(intent)
+                        }
+                    })
+                    adapter?.notifyDataSetChanged()
+                }
+            } else {
+                binding.emptyItemLayout.visibility = View.VISIBLE
+            }
 
-            data.forEach {
-                if(it.userId != currentUser?.userId)
-                    users.add(it)
-            }
-            binding.collectionRecyclerView.apply {
-                layoutManager = LinearLayoutManager(applicationContext)
-                adapter = UserAdapter(users, applicationContext, object : UserAdapter.OnItemClickListener {
-                    override fun onItemClick(user: User) {
-                        val intent = Intent(applicationContext, ChatActivity::class.java)
-                        intent.putExtra(Constance.STRING_USER_PACKAGE, user)
-                        startActivity(intent)
-                    }
-                })
-                adapter?.notifyDataSetChanged()
-            }
         })
     }
 
     private fun refreshObserve(viewModel: CollectionViewModel, binding: ActivityMainBinding) {
         binding.refresh.setOnRefreshListener {
             binding.progressBar.visibility = View.VISIBLE
-            viewModel.getUser(refresh = true)
+            viewModel.getUser(refresh = true, context = applicationContext)
         }
     }
 }

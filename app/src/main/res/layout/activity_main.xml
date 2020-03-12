@@ -44,7 +44,30 @@
                     android:layout_height="40dp"
                     android:layout_centerInParent="true"/>
 
+                <LinearLayout
+                    android:id="@+id/emptyItemLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_centerInParent="true"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:layout_width="160dp"
+                        android:layout_height="160dp"
+                        android:src="@drawable/undraw_empty"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/no_friend_to_connect"
+                        android:gravity="center"/>
+
+
+                </LinearLayout>
+
             </RelativeLayout>
         </FrameLayout>
+
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </layout>

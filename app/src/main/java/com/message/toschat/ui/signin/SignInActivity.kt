@@ -117,11 +117,11 @@ class SignInActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLi
                         val getUser = auth.currentUser
                         Log.e("user", getUser!!.displayName)
 
-                        val userReference = FirebaseDatabase.getInstance().getReference(Constance.SINGLE_USER)
+                        val userReference = FirebaseDatabase.getInstance().getReference(Constance.USER)
                         val userId = getUser.uid
                         val user = User(getUser.uid, getUser.displayName.toString(), getUser.photoUrl.toString(), getUser.email.toString(), getUser.providerId)
                         userReference.child(userId).setValue(user).addOnCompleteListener {
-                            SingleTon.save(this@SignInActivity, Constance.SINGLE_USER, user)
+                            SingleTon.save(this@SignInActivity, Constance.USER, user)
                             val intent = Intent(this, CollectionActivity::class.java)
                             intent.putExtra("user_package", user)
                             intent.flags

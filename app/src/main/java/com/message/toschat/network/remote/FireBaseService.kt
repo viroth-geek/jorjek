@@ -13,7 +13,7 @@ class FireBaseService {
     fun getUserFromFireBase() : ArrayList<User> {
 
         val users = ArrayList<User>()
-        val reference  = FirebaseDatabase.getInstance().getReference(Constance.SINGLE_USER)
+        val reference  = FirebaseDatabase.getInstance().getReference(Constance.USER)
         reference.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshop: DataSnapshot) {
                 for(snapshot in dataSnapshop.children) {
